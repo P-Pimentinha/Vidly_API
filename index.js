@@ -57,6 +57,22 @@ app.put('/api/movies/:id', (req, res) => {
     res.send(movie);
 });
 
+app.delete('/api/movies/:id', (req, res) => {
+    //Validate the already existing object
+    const movie = movies.find(c => c.id === parseInt(req.params.id));
+    if(!movie) res.status(404).send('The movie with the give ID was not found');
+
+
+    //delete
+
+    const index = movies.indexOf(movie);
+    movies.splice(index, 1);
+
+    //Update course
+    res.send(movie);
+});
+
+
 
 
 function validateMovie(movie) {
@@ -69,5 +85,5 @@ function validateMovie(movie) {
 
 //PORT
 const port = process.env.PORT || 8000;
-app.listen(port, () => console.log(`Listening on port ${port}`));
+app.listen(port, () => console.log(`Listening on port ${port}`)); 
 
