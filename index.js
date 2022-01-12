@@ -21,9 +21,33 @@ app.get('/api/movies/:id', (req,res) => {
     res.send(movie);
 });
 
+app.post('/api/movies/', (req, res) => {
+    //Validation	
+    const { error } = validateMovie(req.body);
+    if(error) return res.status(400).send(error.details[0].message);
+
+    //Posting a course
+    const movie = {
+        id:movies.length +1,
+        name: req.body.name,
+        type: req.body.type,
+    };
+
+    movies.push(movie);
+    res.send(movie);
+
+});
 
 
 
+
+function validateMovie(movie) {
+    const schema = {
+        name: Joi.string().min(3).required(),
+        type: Joi.string().min(3).required()
+    };
+    return Joi.validate(movie, schema);
+}
 
 //PORT
 const port = process.env.PORT || 8000;
