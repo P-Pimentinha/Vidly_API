@@ -38,6 +38,24 @@ app.post('/api/movies/', (req, res) => {
 
 });
 
+app.put('/api/movies/:id', (req, res) => {
+    //Validate the already existing object
+    const movie = movies.find(c => c.id === parseInt(req.params.id));
+    if(!movie) res.status(404).send('The movie with the give ID was not found');
+
+
+    // validate the new object
+    
+    const { error } = validateMovie(req.body);
+    if(error) return res.status(400).send(error.details[0].message);
+        
+    
+
+    //Update course
+    movie.name = req.body.name
+    movie.type = req.body.type
+    res.send(movie);
+});
 
 
 
