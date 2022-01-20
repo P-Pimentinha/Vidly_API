@@ -1,10 +1,11 @@
+const mongoose = require('mongoose');
 const express = require('express');
 const router = express.Router();
 const Joi = require('joi');
 
 
 const movies = [
-    {id: 1,name:"Saw" ,type: 'Horror'},
+    {id: 1,name:"Saw" , type: 'Horror'},
     {id: 2, name:"Jumanji" , type: 'Adventure'},
     {id: 3, name:"Destiny" , type: 'Sci-Fi'},
      
