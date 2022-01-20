@@ -1,16 +1,26 @@
-const Joi = require('joi');
-const mongoose = require('mongoose');
 const express = require('express');
 const router = express.Router();
+const Joi = require('joi');
+const string = require('joi/lib/types/string');
+const mongoose = require('mongoose');
+
+/* const genres = [
+  { id: 1, name: 'Action' },  
+  { id: 2, name: 'Horror' },  
+  { id: 3, name: 'Romance' },  
+]; */
 
 const Genre = mongoose.model('Genre', new mongoose.Schema({
-  name: {
+  name:{
     type: String,
     required: true,
     minlength: 5,
-    maxlength: 50
+    maxlength:50
   }
 }));
+
+
+
 
 router.get('/', async (req, res) => {
   const genres = await Genre.find().sort('name');
