@@ -55,10 +55,10 @@ router.get('/', async (req, res) => {
     if (!customer) return res.status(404).send('The customer with the given ID was not found.');
   
     res.send(customer);
-  });
+  }); 
 
- /*  router.get('user/:name', async (req, res) => {
-    const customer = Customer.find(req.params.name);
+ /*  router.get('/:name', async (req, res) => {
+    const customer = await Customer.find({name: req.params.name});
   
     if (!customer) return res.status(404).send('The customer with the given ID was not found.');
   
