@@ -45,7 +45,7 @@ router.post('/', async (req, res) => {
     }
   });
   
-try{ //two Phase Commit using Fawn
+try{ //two Phase Commit using Fawn // fawn interacts directly with the collection in mongo db (casesensitive)
   new Fawn.Task()
     .save('rental', rental)
     .update('movies', {_id: movie._id}, {
