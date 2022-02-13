@@ -1,10 +1,10 @@
 const Joi = require('joi');
-
 const mongoose = require('mongoose');
 
+//Schema used to create the rental object 
 const Rental = mongoose.model('Rental', new mongoose.Schema({
   customer: { 
-    type: new mongoose.Schema({
+    type: new mongoose.Schema({ //new schema based on customer schema
       name: {
         type: String,
         required: true,
@@ -25,7 +25,7 @@ const Rental = mongoose.model('Rental', new mongoose.Schema({
     required: true
   },
   movie: {
-    type: new mongoose.Schema({
+    type: new mongoose.Schema({ //new schema based on movie schema
       title: {
         type: String,
         required: true,
@@ -56,6 +56,7 @@ const Rental = mongoose.model('Rental', new mongoose.Schema({
   }
 }));
 
+// Validation of the data sent by the client using the 2 npm : joi and joi-objectid(npm loaded on index.js)
 function validateRental(rental) {
   const schema = {
     customerId: Joi.objectId().required(),

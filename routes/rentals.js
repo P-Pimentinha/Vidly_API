@@ -8,38 +8,44 @@ const Fawn = require('fawn');
 
 Fawn.init(mongoose);
 
-
+// get the list of all rentals 
 router.get('/', async (req, res) => {
   const rentals = await Rental.find().sort('-dateOut');
   res.send(rentals);
 });
 
+// creates a new rental
 router.post('/', async (req, res) => {
+
+  // Validation of the data in (req.body) using the imported function validate
   const { error } = validate(req.body); 
   if (error) return res.status(400).send(error.details[0].message);
 
+  // Validation of the customer through ID using findById (mongoose model)
   const customer = await Customer.findById(req.body.customerId);
   if (!customer) return res.status(400).send('Invalid customer.');
 
+  // Validation of the movie through ID using findById (mongoose model)
   const movie = await Movie.findById(req.body.movieId);
   if (!movie) return res.status(400).send('Invalid movie.');
 
+  // Validation of product in stock
   if (movie.numberInStock === 0) return res.status(400).send('Movie not in stock.');
 
   let rental = new Rental({ 
-    customer: {
+    customer: { //Customer ID
       _id: customer._id,
       name: customer.name, 
       phone: customer.phone
     },
-    movie: {
+    movie: { // movie ID
       _id: movie._id,
       title: movie.title,
       dailyRentalRate: movie.dailyRentalRate
     }
   });
   
-try{
+try{ //two Phase Commit using Fawn
   new Fawn.Task()
     .save('rental', rental)
     .update('movies', {_id: movie._id}, {
@@ -55,6 +61,7 @@ try{
   
 });
 
+// gets a single object based on the ID
 router.get('/:id', async (req, res) => {
   const rental = await Rental.findById(req.params.id);
 

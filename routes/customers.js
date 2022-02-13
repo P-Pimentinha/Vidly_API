@@ -5,22 +5,26 @@ const mongoose = require('mongoose');
 
 
 
-
+// get the list of all customers 
 router.get('/', async (req, res) => {
     const customers = await Customer.find();
     res.send(customers);
   });
 
+  // creates a new customer
   router.post('/', async (req, res) => {
+
+    // Validation of the data in (req.body) using the imported function validate 
     const { error } = validate(req.body); 
     if (error) return res.status(400).send(error.details[0].message);
-  
-    let customer = new Customer({ 
-      name: req.body.name,
-      isGold: req.body.isGold,
-      phone: req.body.phone
+    
+
+    const customer = new Customer({ 
+      name: req.body.name, // string 
+      isGold: req.body.isGold, // boolean 
+      phone: req.body.phone // string
     });
-    customer = await customer.save();
+    await customer.save();
     
     res.send(customer);
   });

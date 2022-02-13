@@ -1,6 +1,7 @@
 const Joi = require('joi');
 const mongoose = require('mongoose');
 
+//Schema used to create the genre object 
 const genreSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -12,6 +13,8 @@ const genreSchema = new mongoose.Schema({
 
 const Genre = mongoose.model('Genre', genreSchema);
 
+
+// Validation of the data sent by the client using joi
 function validateGenre(genre) {
   const schema = {
     name: Joi.string().min(3).required()

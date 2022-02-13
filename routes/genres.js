@@ -3,23 +3,21 @@ const router = express.Router();
 const { Genre, validate } = require('../modules/genres')
 const mongoose = require('mongoose');
 
-
-
-
-
-
-
+// get the list of all genres 
 router.get('/', async (req, res) => {
   const genres = await Genre.find().sort('name');
   res.send(genres);
 });
 
+ // creates a new genre
 router.post('/', async (req, res) => {
+
+  // Validation of the data in (req.body) using the imported function validate
   const { error } = validate(req.body); 
   if (error) return res.status(400).send(error.details[0].message);
 
-  let genre = new Genre({ name: req.body.name });
-  genre = await genre.save();
+  const genre = new Genre({ name: req.body.name }); //string
+  await genre.save();
   
   res.send(genre);
 });

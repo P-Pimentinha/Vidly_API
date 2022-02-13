@@ -2,6 +2,7 @@ const Joi = require('joi');
 const mongoose = require('mongoose');
 const {genreSchema} = require('./genres');
 
+//Schema used to create the movie object 
 const Movie = mongoose.model('Movies', new mongoose.Schema({
     title: {
       type: String,
@@ -11,7 +12,7 @@ const Movie = mongoose.model('Movies', new mongoose.Schema({
       maxlength: 255
     },
     genre: { 
-      type: genreSchema,  
+      type: genreSchema, // relation with genreSchema
       required: true
     },
     numberInStock: { 
@@ -28,6 +29,7 @@ const Movie = mongoose.model('Movies', new mongoose.Schema({
     }
   }));
 
+  // Validation of the data sent by the client using the 2 npm : joi and joi-objectid(npm loaded on index.js)
   function validateMovie(movie) {
     const schema = {
       title: Joi.string().min(5).max(50).required(),
