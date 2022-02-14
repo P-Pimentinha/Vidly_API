@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { Genre, validate } = require('../modules/genres')
+const { Genre, validate } = require('../models/genres')
 const mongoose = require('mongoose');
 
 // get the list of all genres 
