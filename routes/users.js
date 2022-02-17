@@ -1,3 +1,5 @@
+const config = require('config');
+const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const _ = require('lodash')
 const express = require('express');
@@ -21,8 +23,10 @@ router.post('/', async (req, res) => {
     user.password = await bcrypt.hash(user.password, salt);
     await user.save();
     
+    
+    const token = user.generateAuthToken();
     //.pick returns an object that contains only the properties passed to it from another object. 
-    res.send(_.pick(user, ['_id', 'name', 'email']));
+    res.header('x-auth-token', token).send(_.pick(user, ['_id', 'name', 'email']));
   });
 
   module.exports = router;
