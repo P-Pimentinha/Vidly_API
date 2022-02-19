@@ -1,7 +1,7 @@
 const config = require('config');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-const _ = require('lodash')
+const _ = require('lodash');
 const express = require('express');
 const router = express.Router();
 const { User, validate } = require('../models/user')
@@ -15,9 +15,10 @@ router.post('/', async (req, res) => {
 
     //Looks for accounts registered with the same email  
     let user = await User.findOne({email: req.body.email});
-      if (user) return res.status(400).send('User already registered');
+      if (user) return res.status(400).send('Email already registered');
 
     user = new User(_.pick(req.body, ['name', 'email', 'password']));
+
     //bcrypt is used to hash the password
     const salt = await bcrypt.genSalt(10);
     user.password = await bcrypt.hash(user.password, salt);

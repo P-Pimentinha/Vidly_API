@@ -3,7 +3,7 @@ const express = require('express');
 const router = express.Router();
 const { Customer, validate } = require('../models/customer')
 const mongoose = require('mongoose');
-
+const _ = require('lodash');
 
 
 // get the list of all customers 
@@ -13,18 +13,15 @@ router.get('/', async (req, res) => {
   });
 
   // creates a new customer
-  router.post('/', auth, async (req, res) => {
+  router.post('/', async (req, res) => {
 
     // Validation of the data in (req.body) using the imported function validate 
     const { error } = validate(req.body); 
     if (error) return res.status(400).send(error.details[0].message);
     
 
-    const customer = new Customer({ 
-      name: req.body.name, // string 
-      isGold: req.body.isGold, // boolean 
-      phone: req.body.phone // string
-    });
+    const customer = new Customer(_.pick(req.body, ['name', 'isGold', 'phone']));
+    
     await customer.save();
     
     res.send(customer);
