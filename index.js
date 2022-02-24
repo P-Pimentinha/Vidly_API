@@ -8,7 +8,8 @@ const mongoose = require('mongoose');
 const Joi = require('joi');
 Joi.objectId = require('joi-objectid')(Joi);
 
-// Routes import
+// Routes/middleware import
+const error = require('./middleware/error');
 const config = require('config');
 const genres = require('./routes/genres');
 const customers = require('./routes/customers');
@@ -38,9 +39,7 @@ app.use('/api/users', users);
 app.use('/api/auth', auth);
 
 //Express error handling middleware
-app.use(function(err, req, res, next){
-    res.status(500).send("Something Failed");
-})
+app.use(error);
 
 //Server connection
 const port = process.env.PORT || 3001;
