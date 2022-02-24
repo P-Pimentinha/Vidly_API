@@ -4,7 +4,7 @@ const express = require('express');
 const router = express.Router();
 const { Genre, validate } = require('../models/genres')
 const mongoose = require('mongoose');
-const asyncMiddleware = require('../middleware/async')
+
 
 // get the list of all genres 
 router.get('/', async (req, res, next) => {
@@ -19,7 +19,7 @@ router.get('/', async (req, res, next) => {
 });
 
  // creates a new genre
-router.post('/', authasync (req, res) => {
+router.post('/', auth, async (req, res) => {
 
   // Validation of the data in (req.body) using the imported function validate
   const { error } = validate(req.body); 

@@ -9,7 +9,8 @@ const mongoose = require('mongoose');
 const Joi = require('joi');
 Joi.objectId = require('joi-objectid')(Joi);
 
-// Routes/middleware import
+// Routes/middleware/npm 
+const winston = require('winston');
 const error = require('./middleware/error');
 const config = require('config');
 const genres = require('./routes/genres');
