@@ -11,6 +11,7 @@ Joi.objectId = require('joi-objectid')(Joi);
 
 // Routes/middleware/npm 
 const winston = require('winston');
+/* require('winston-mongodb'); */
 const error = require('./middleware/error');
 const config = require('config');
 const genres = require('./routes/genres');
@@ -19,6 +20,27 @@ const movies = require('./routes/movies');
 const rentals = require('./routes/rentals');
 const users = require('./routes/users');
 const auth = require('./routes/auth');
+const { Err } = require('joi/lib/errors');
+
+//Process for Uncaught Exceptions
+process.on('uncaughtException', (ex) => {
+    console.log("we got an uncaught exception");
+    winston.error(ex.message, ex);
+})
+
+//logs error messages on the console
+const logger = winston.createLogger({
+    level: 'info',
+    format: winston.format.json(),
+    defaultMeta: { service: 'user-service' },
+    transports: [
+      new winston.transports.File({ filename: 'error.log', level: 'error' }),   
+    ],
+  });
+
+ 
+
+  /* winston.add(new winston.transports.MongoDB({ db: 'mongodb://localhost/vidly'})); */
 
 if(!config.get('jwtPrivateKey')){
     console.error('FATAL ERROR: jwtPrivatekey is not defined')
