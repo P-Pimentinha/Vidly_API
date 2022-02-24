@@ -8,8 +8,14 @@ const mongoose = require('mongoose');
 
 // get the list of all genres 
 router.get('/', async (req, res) => {
-  const genres = await Genre.find().sort('name');
+  try{
+    const genres = await Genre.find().sort('name');
   res.send(genres);
+  }
+  catch (ex) {
+    
+  }
+  
 });
 
  // creates a new genre
