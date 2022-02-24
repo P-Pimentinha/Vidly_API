@@ -1,6 +1,7 @@
 // Express Framework 
 const express = require('express');
 const app = express();
+require('express-async-errors');
 // Database
 const mongoose = require('mongoose');
 
